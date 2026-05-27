@@ -1,0 +1,71 @@
+{
+  "theme": "dark",
+  "archetype": "2 (The Performance Pro)",
+  "colors": {
+    "background": "#0A0A0A",
+    "surface": "#121212",
+    "border": "#262626",
+    "primary": "#007AFF",
+    "primary_foreground": "#FFFFFF",
+    "destructive": "#FF3B30",
+    "destructive_foreground": "#FFFFFF",
+    "text_primary": "#FFFFFF",
+    "text_secondary": "#A1A1AA",
+    "accent": "#1A1A1A"
+  },
+  "typography": {
+    "heading_font": "Barlow Condensed",
+    "body_font": "Inter",
+    "data_font": "IBM Plex Mono",
+    "h1": "text-4xl sm:text-5xl lg:text-6xl font-black tracking-tighter uppercase",
+    "h2": "text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight uppercase",
+    "label": "text-xs tracking-[0.2em] uppercase text-[#A1A1AA] font-bold",
+    "data": "text-base sm:text-lg font-mono font-medium"
+  },
+  "layout_and_spacing": {
+    "philosophy": "Tactical Minimalism. High density data grid. Sharp edges.",
+    "container": "w-full max-w-7xl mx-auto p-4 sm:p-6 lg:p-8",
+    "grid_structure": {
+      "wrapper": "overflow-x-auto relative w-full border border-[#262626] bg-[#0A0A0A] shadow-2xl",
+      "table": "min-w-max w-full border-collapse",
+      "header_row": "border-b border-[#262626] bg-[#121212]",
+      "sticky_col": "sticky left-0 bg-[#121212] border-r border-[#262626] z-10 font-bold px-2 sm:px-4 py-3 min-w-[80px] sm:min-w-[120px] shadow-[4px_0_12px_rgba(0,0,0,0.5)]",
+      "cell": "border-b border-r border-[#262626] p-0 relative min-w-[70px] sm:min-w-[80px]",
+      "input": "w-full h-full bg-transparent border-none text-center focus:ring-2 focus:ring-[#007AFF] focus:outline-none py-3 font-mono text-white text-base sm:text-lg rounded-none transition-colors hover:bg-white/5 placeholder-neutral-800",
+      "total_row": "border-t-2 border-[#007AFF] bg-[#1A1A1A] font-bold text-lg"
+    },
+    "border_radius": "rounded-none",
+    "shadows": "use 1px solid strokes or 2px inner glow highlights instead of soft shadows"
+  },
+  "components": {
+    "button": "Shadcn UI Button. Override radius to rounded-none or rounded-sm. Use sharp edges.",
+    "input": "Shadcn UI Input for Player names in setup. For the grid, use naked inputs flush with cell borders.",
+    "data_testid_rules": "All interactive elements MUST have data-testid attributes."
+  },
+  "motion_and_interaction": {
+    "hover": "Subtle background lighten (bg-white/5) for grid cells.",
+    "focus": "High contrast ring focus (ring-2 ring-[#007AFF] inset) to easily see active cell.",
+    "transitions": "Fast, precise (duration-150 ease-out)."
+  },
+  "media": {
+    "app_background": {
+      "url": "https://static.prod-images.emergentagent.com/jobs/f44ecba7-517c-4c72-8ea4-62aa595a6048/images/08b2b314ac10680e4b284d148f1c1bf4c04a5ea03b7b295f45d486f7a42a0e07.png",
+      "description": "Dark tactical abstract background for the main menu to set the elite performance mood.",
+      "placement": "Main menu background (use fixed positioning, cover, with heavy black overlay bg-black/80 so text pops)."
+    }
+  },
+  "specific_instructions_for_main_agent": [
+    "Build a two-screen flow: Setup Screen (Main Menu) and Game Screen (Scoreboard Dashboard).",
+    "Setup Screen: Allow adding up to 10 player names dynamically. Show a Start Game button. Use the provided app_background with a heavy bg-black/80 overlay.",
+    "Game Screen: Render a grid/table. Column 1 must be the sticky labels: Hourglass, 20, DBL, 19, TPL, 18, 61, 17, 1C, 16, 3C, 15, Bulls eye.",
+    "Top Row: Display the player names entered in the Setup screen.",
+    "Grid Body: Render text inputs for every cell intersection. Inputs must accept numbers (type='number' or handled as parsed floats/ints). Default to empty.",
+    "Total Row: The bottom row must dynamically calculate and display the sum of scores for each player.",
+    "Footer Controls: Add 'Clear Scores' button (wipes grid inputs but keeps players) and 'End Game' (returns to Setup screen).",
+    "Layout Requirement: The grid wrapper MUST use overflow-x-auto and the first column MUST be sticky (sticky left-0) so users can scroll horizontally if there are many players on mobile.",
+    "Aesthetics: Keep it brutal, dark, and highly visible. No rounded corners in the grid. Cell inputs should be seamless.",
+    "Data Test IDs: Add data-testid to everything. Examples: 'setup-player-input-X', 'setup-start-btn', 'grid-input-playerX-rowY', 'btn-clear', 'btn-end'.",
+    "Font Requirements: DO NOT use Inter or standard sans for the score numbers, use a Monospace font (like IBM Plex Mono or JetBrains Mono) so numbers stack and align cleanly.",
+    "Implementation Tech: Use standard HTML <table> for the grid structure as it's the most robust way to handle sticky headers/columns for tabular data, styled with Tailwind classes provided."
+  ]
+}

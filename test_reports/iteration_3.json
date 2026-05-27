@@ -1,0 +1,28 @@
+{
+  "summary": "Frontend-only testing of Hourglass dart score tracker on iPhone viewport (390x844). All 17 features from the review request were verified end-to-end. Setup -> add players -> start game -> cell click opens DartCalculator -> number+multiplier (T20+S20+D20=120) -> submit adds to cell -> 2nd submit accumulates (120+100=220) -> Miss halves (220->110) -> Restart clears scores keeps players -> Clear works -> View Stats navigates -> Back button (3 modes: multiplier->numbers, remove last dart, close when empty) -> Close X -> Green Bull instant +25 -> Red Bull instant +50 -> all numbers 1-20 visible/clickable -> selected cell shows blue ring. No bugs found.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "GameScreen Miss button", "issues": ["The MISS (÷2) button renders the '÷' character which may appear as '+' in some Barlow Condensed font fallbacks during screenshot rendering. Cosmetic only — actual logic correctly halves the score. Consider using '/2' or '½' for safer rendering."]}
+    ]
+  },
+  "test_report_links": ["/app/test_reports/iteration_3.json"],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "GameScreen.jsx stores scores as strings ('' or '120') instead of numbers — works but mixing string/number types is fragile. Consider normalizing to numbers and using null/0 for empty.",
+    "Toasts stack/overlap on the calculator modal header and can visually obscure the Back/Close buttons during rapid sequential submits (cosmetic; force=True clicks still work). Consider lowering toast z-index or auto-dismissing prior toasts on new action.",
+    "DartCalculator.jsx: bulls bypass multiplier step (correct per spec) but the 3-dart cap is enforced in handleNumberClick/handleBullClick — UX would benefit from disabling number/bull buttons once darts.length === 3 instead of silently no-oping.",
+    "GameScreen handleSaveGame uses Math.max on totals to derive winner — ties always go to lowest index. Acceptable for MVP but should be documented.",
+    "Selected cell state is cleared by clearScores but Miss button does not clear selection after halving — selecting a cell remains sticky after halve (intended? consider clearing selection so user must intentionally pick again to avoid accidental double-Miss)."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "not tested (per request)", "frontend": "100%"},
+  "test_credentials": "N/A",
+  "seed_data_creation": "None",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Frontend at https://score-grid-tracker.preview.emergentagent.com. Tested on 390x844 viewport (iPhone 14). All key data-testid attributes preserved: setup-title, game-title, setup-player-input-{i}, setup-start-btn, grid-cell-player{p}-row{r}, grid-input-player{p}-row{r}, calc-num-{1-20}, calc-single/double/triple, calc-green-bull, calc-red-bull, calc-submit-btn, calc-back-btn, calc-close-btn, calc-running-total, calc-dart-{0-2}, btn-miss, btn-restart, btn-clear, btn-end, btn-save-game, game-view-stats-btn, total-player-{i}. Backend (test_game_history.py from iter 2) untouched and presumed still passing — only POST /api/games is used by SAVE button. Note: Calculator number-cap (3 darts) silently no-ops; consider visual disabled state.",
+  "rca of the issue": "N/A — no bugs found. The transient 'back returns to numbers: False' observed during sequential submits was caused by Sonner toasts overlapping the calculator header; re-tested in a clean state and Back works correctly in all 3 modes (multiplier->numbers, remove-last-dart, close-when-empty)."
+}
